@@ -1,0 +1,42 @@
+{
+  "name": "vtour-api",
+  "version": "0.0.2",
+  "private": true,
+  "description": "VTour API Services",
+  "keywords": [
+    "vtour",
+    "api",
+    "travel"
+  ],
+  "author": "Spiritual Adventurers",
+  "license": "MIT License v2.0",
+  "main": "app.js",
+  "dependencies": {
+    "acl": "^0.4.9",
+    "async": "^1.5.0",
+    "async-q": "^0.2.2",
+    "base-64": "^0.1.0",
+    "body-parser": "~1.14.1",
+    "compression": "~1.6.0",
+    "crypto": "0.0.3",
+    "express": "^4.12.3",
+    "hashmap": "~2.0.4",
+    "intravenous": "~0.1.4-beta",
+    "jsonwebtoken": "~5.4.0",
+    "lazy.js": "~0.4.2",
+    "merge": "^1.2.0",
+    "moment": "~2.11.0",
+    "node-rest-client": "~1.5.1",
+    "node-uuid": "^1.4.3",
+    "path": "^0.12.7",
+    "q": "~1.4.1",
+    "restling": "^0.9.1",
+    "utf8": "^2.1.1",
+    "winston": "~1.0.1",
+    "yamljs": "~0.2.4"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "test": "swagger project test"
+  }
+}

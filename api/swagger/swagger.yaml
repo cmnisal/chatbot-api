@@ -1,0 +1,25 @@
+swagger: "2.0"
+info:
+  version: "1.0"
+  title: VTour API
+  description: VTour API Services
+host: vtour.com
+basePath: /v1
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  
+  ErrorResponse:
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: string
+      message:
+        type: string
