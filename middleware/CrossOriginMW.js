@@ -10,7 +10,6 @@ module.exports = function CrossOriginMW()
         res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, X-IBM-Client-Id, X-IBM-Client-Secret');
         res.header('Access-Control-Allow-Credentials', 'true');
-        console.log("DBG1: Hitting X-origin MW");
         next();
     };
 };

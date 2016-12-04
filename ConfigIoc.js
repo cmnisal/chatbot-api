@@ -29,7 +29,7 @@ module.exports = function ConfigIoc(){
         //END: NPM modules
 
         //BEGIN: Data Connections
-        container.get('mongoose').connect('mongodb://sa:spiritualadventurers@ds119768.mlab.com:19768/vtour');
+        container.get('mongoose').module.connect(config.data.mainDataConnectionPool.mongoConnectionUrl);
         //END: Data Connections
 
         //BEGIN: Miscellaneous
@@ -52,7 +52,7 @@ module.exports = function ConfigIoc(){
         //END: Utilities
 
         //BEGIN: Data Access
-
+        container.register('userDataAccessService', require('./data_access_services/UserDataAccessService'), 'singleton');
         //END: Data
 
         //BEGIN: Provider

@@ -9,17 +9,9 @@ module.exports = function RouteManager(expressApp,
     this.config = iocContainer.get('config');
     this.logger = iocContainer.get('logger');
     this.q = iocContainer.get('q').module;
-    this.serverAuth = iocContainer.get('auth-server');
-    this.passport = iocContainer.get('passport').module;
     this.serviceRoleMap = {};
 
-    this.isSecurityOn;
-    if (self.config.security.secureEndpoints === false) {
-        this.isSecurityOn = false;
-    }
-    else {
-        this.isSecurityOn = true;
-    }
+    self.isSecurityOn = false;
 
     this.register = function (routeJson) {
 

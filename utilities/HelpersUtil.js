@@ -1,8 +1,6 @@
 module.exports = function HelpersUtil(
     config,
-    moment,
-    momenttz,
-    tzlookup
+    moment
 ) {
     "use strict";
 
@@ -10,8 +8,6 @@ module.exports = function HelpersUtil(
 
     this.config = config;
     this.moment = moment.module;
-    this.momenttz = momenttz.module;
-    this.tzlookup = tzlookup.module;
 
     this.toIso8601Date = function(dateValue){
         return self.moment(dateValue).format();
@@ -62,83 +58,21 @@ module.exports = function HelpersUtil(
     this.getCurrentUTCFormattedDate = function(timeZone)
     {
         var moment =  self.moment().utc();
-        if (timeZone) {
-            return self.momenttz.tz(moment.toISOString(), timeZone).format('YYYY-MM-DDTHH:mm:ss[Z]');
-        } else {
-            return moment.format('YYYY-MM-DDTHH:mm:ss[Z]')
-        }
+        return moment.format('YYYY-MM-DDTHH:mm:ss[Z]')
+
 
     };
 
     this.getCurrentFormattedDate = function(timeZone)
     {
         var moment =  self.moment().utc();
-        if (timeZone) {
-            return self.momenttz.tz(moment.toISOString(), timeZone).format('YYYY-MM-DD');
-        } else {
-            return moment.format('YYYY-MM-DD');
-        }
-
+        return moment.format('YYYY-MM-DD');
     };
 
     this.getCurrentFormattedTime = function(timeZone)
     {
         var moment =  self.moment().utc();
-        if (timeZone) {
-            return self.momenttz.tz(moment.toISOString(), timeZone).format('HH:mm:ss');
-        } else {
-            return moment.format('HH:mm:ss');
-        }
-
-    };
-    /**
-     * Gets a given time in the specified time zone.
-     * @param utcTime The time in UTC
-     * @param timeZone The time zone to convert to
-     * @returns {{}}
-     */
-    this.getTimeInTimeZone = function(utcTime, timeZone) {
-      var moment = self.moment.utc(utcTime);
-        var momentTz = self.momenttz.tz(moment.toISOString(), timeZone);
-        var timeObject = {};
-        if (timeZone) {
-            timeObject = {
-                date: momentTz.format('YYYY-MM-DD'),
-                time: momentTz.format('HH:mm:ss.SSSZZ'),
-                dateTime : momentTz.format('YYYY-MM-DDTHH:mm:ss.SSSZZ')
-            };
-        } else {
-            timeObject = {
-                date: moment.format('YYYY-MM-DD'),
-                time: moment.format('HH:mm:ss'),
-                dateTime : moment.format('YYYY-MM-DDTHH:mm:ss[Z]')
-            };
-        }
-        return timeObject;
-
-    };
-    /**
-     * Returns the string timezone
-     * @param lat
-     * @param long
-     * @returns String timezone
-     */
-    this.getTimeZone = function(lat, long) {
-       // return self.tzwhere.tzNameAt(lat, long);
-        return self.tzlookup(lat, long);
-    };
-    /**
-     * Converts to UTC from a time zone
-     * @param time
-     * @param zone
-     * @returns {*}
-     */
-    this.convertToUtc = function(time, zone) {
-        var zoneTime = self.momenttz.tz(time, zone);
-        return {
-          dateTime: zoneTime.utc().format('YYYY-MM-DDTHH:mm:ss[Z]'),
-          timestamp: zoneTime.unix()
-        };
+        return moment.format('HH:mm:ss');
     };
     this.addPeriod = function(date,number, period) {
         return self.moment(date, "YYYY-MM-DD").add(number, period).format("YYYY-MM-DD");
@@ -584,8 +518,6 @@ module.exports = function HelpersUtil(
 
 module.exports.$inject = [
     'config',
-    'moment',
-    'momenttz',
-    'tzlookup'
+    'moment'
 ];
 
