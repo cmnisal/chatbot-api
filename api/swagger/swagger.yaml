@@ -13,7 +13,21 @@ consumes:
 produces:
   - application/json
 paths:
-  
+  /hello:
+    x-swagger-router-controller: Hello
+    get:
+      operationId: sayhello
+      tags:
+        -test
+      responses:
+        200:
+          description: Success
+        500:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+definitions:
   ErrorResponse:
     required:
       - code

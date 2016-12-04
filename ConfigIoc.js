@@ -21,6 +21,7 @@ module.exports = function ConfigIoc(){
         container.register('crypto', { module: require('crypto') }, 'singleton');
         container.register('utf8',{ module: require('utf8') }, 'singleton' );
         container.register('base64',{ module: require('base-64') }, 'singleton' );
+        container.register('mongoose', { module : require('mongoose') }, 'singleton');
         //END: NPM modules
 
         //BEGIN: Clients
@@ -28,7 +29,7 @@ module.exports = function ConfigIoc(){
         //END: NPM modules
 
         //BEGIN: Data Connections
-        
+        container.get('mongoose').connect('mongodb://sa:spiritualadventurers@ds119768.mlab.com:19768/vtour');
         //END: Data Connections
 
         //BEGIN: Miscellaneous
