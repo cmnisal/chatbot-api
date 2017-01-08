@@ -13,6 +13,7 @@ module.exports = {
 
     apiRoutes: require('yamljs').load('./api/swagger/swagger.yaml'),
     errors: require("../ConfigErrors"),
+    security: require("../ConfigSecurity"),
 
     httpMethods:['get','post','put','delete']
 };

@@ -101,13 +101,14 @@ function initializeWorkerProcess(config){
     var crossOriginMW = container.get('crossOriginMW');
     app.use(crossOriginMW.middleware);
 
-    var configJson = config.apiRoutes;
+    var authMW = container.get('authMW');
+    app.use(authMW.middleware);
 
     var ApiServerClass = require('./ApiServer');
     var apiServer = new ApiServerClass(app, container);
     apiServer.startApp();
 
-    configJson =config.apiRoutes;
+    configJson = config.apiRoutes;
 
 
     logger.info('Initializing routes...');

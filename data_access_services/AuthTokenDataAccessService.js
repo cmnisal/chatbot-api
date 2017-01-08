@@ -18,7 +18,8 @@ module.exports = function AuthTokenDataAccessService(config,
         var insertToken = self.q.nbind(self.Token.insert, self.Token);
         var tokenDoc = {
             username: user.username,
-            token: token
+            token: token,
+            _id: token
         };
         return insertToken(tokenDoc)
             .then(function(success) {
@@ -35,6 +36,19 @@ module.exports = function AuthTokenDataAccessService(config,
                 }
             });
 
+    };
+
+    this.getToken = function(token) {
+       var getTokenDoc = self.q.nbind(self.Token.findOne, self.Token);
+        return getTokenDoc(ObjectId.fromString(token))
+            .then(function(tokenDoc) {
+                if(tokenDoc) {
+                    return self.q.when(tokenDoc);
+                } else {
+                    return self.q.when(null);
+                }
+
+            })
     };
 
     this.Token = self.db.model('vt_token', new self.schema({

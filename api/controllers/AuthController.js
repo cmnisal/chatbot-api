@@ -1,5 +1,6 @@
 module.exports = function AuthController(config,
                                           q,
+                                          userDataAccessService,
                                           authTokenDataAccessService,
                                           helpersUtil,
                                           exceptionFac) {
@@ -9,6 +10,7 @@ module.exports = function AuthController(config,
     // Bind injected dependencies
     this.config = config;
     this.q = q.module;
+    this.userDataAccessService = userDataAccessService;
     this.authTokenDataAccessService = authTokenDataAccessService;
     this.helpersUtil = helpersUtil;
     this.exceptionFac = exceptionFac;
@@ -26,6 +28,7 @@ module.exports = function AuthController(config,
 module.exports.$inject = [
     'config',
     'q',
+    'userDataAccessService',
     'authTokenDataAccessService',
     'helpersUtil',
     'exceptionFac'

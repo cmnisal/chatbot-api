@@ -22,6 +22,7 @@ module.exports = function ConfigIoc(){
         container.register('utf8',{ module: require('utf8') }, 'singleton' );
         container.register('base64',{ module: require('base-64') }, 'singleton' );
         container.register('db', { module : require('mongoose') }, 'singleton');
+        container.register('jsonwebtoken', { module: require('jsonwebtoken') }, 'singleton');
         //END: NPM modules
 
         //BEGIN: Clients
@@ -39,6 +40,7 @@ module.exports = function ConfigIoc(){
 
         //BEGIN: Middleware
         container.register('crossOriginMW', require('./middleware/CrossOriginMW'), 'singleton');
+        container.register('authMW', require('./middleware/AuthMW'), 'singleton');
         //END: Middleware
 
         //BEGIN: Factories
@@ -49,6 +51,7 @@ module.exports = function ConfigIoc(){
 
         //BEGIN: Utilities
         container.register('helpersUtil', require('./utilities/HelpersUtil'), 'singleton');
+        container.register('authTokenUtil', require('./utilities/AuthTokenUtil'), 'singleton');
         //END: Utilities
 
         //BEGIN: Data Access
