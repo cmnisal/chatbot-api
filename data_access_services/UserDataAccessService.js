@@ -1,6 +1,6 @@
 module.exports = function UserDataAccessService(config,
                                           q,
-                                          mongoose,
+                                          db,
                                           helpersUtil,
                                           exceptionFac) {
     "use strict";
@@ -9,7 +9,7 @@ module.exports = function UserDataAccessService(config,
     // Bind injected dependencies
     this.config = config;
     this.q = q.module;
-    this.db = mongoose.module;
+    this.db = db.module;
     this.helpersUtil = helpersUtil;
     this.exceptionFac = exceptionFac;
     this.schema = self.db.Schema;
@@ -44,7 +44,7 @@ module.exports = function UserDataAccessService(config,
 module.exports.$inject = [
     'config',
     'q',
-    'mongoose',
+    'db',
     'helpersUtil',
     'exceptionFac'
 ];

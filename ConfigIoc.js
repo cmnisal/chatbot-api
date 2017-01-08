@@ -21,7 +21,7 @@ module.exports = function ConfigIoc(){
         container.register('crypto', { module: require('crypto') }, 'singleton');
         container.register('utf8',{ module: require('utf8') }, 'singleton' );
         container.register('base64',{ module: require('base-64') }, 'singleton' );
-        container.register('mongoose', { module : require('mongoose') }, 'singleton');
+        container.register('db', { module : require('mongoose') }, 'singleton');
         //END: NPM modules
 
         //BEGIN: Clients
@@ -29,7 +29,7 @@ module.exports = function ConfigIoc(){
         //END: NPM modules
 
         //BEGIN: Data Connections
-        container.get('mongoose').module.connect(config.data.mainDataConnectionPool.mongoConnectionUrl);
+        container.get('db').module.connect(config.data.mainDataConnectionPool.mongoConnectionUrl);
         //END: Data Connections
 
         //BEGIN: Miscellaneous
@@ -53,6 +53,7 @@ module.exports = function ConfigIoc(){
 
         //BEGIN: Data Access
         container.register('userDataAccessService', require('./data_access_services/UserDataAccessService'), 'singleton');
+        container.register('authTokenDataAccessService', require('./data_access_services/AuthTokenDataAccessService'), 'singleton');
         //END: Data
 
         //BEGIN: Provider

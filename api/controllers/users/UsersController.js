@@ -1,8 +1,8 @@
-module.exports = function HelloController(config,
-                                         q,
-                                         userDataAccessService,
-                                         helpersUtil,
-                                         exceptionFac) {
+module.exports = function UsersController(config,
+                                          q,
+                                          userDataAccessService,
+                                          helpersUtil,
+                                          exceptionFac) {
     "use strict";
     var self = this;
 
@@ -16,7 +16,7 @@ module.exports = function HelloController(config,
     this.get = function (req) {
         return self.userDataAccessService.getUsers()
             .then(function(users) {
-               return self.q.when(users);
+                return self.q.when(users);
             });
     };
 

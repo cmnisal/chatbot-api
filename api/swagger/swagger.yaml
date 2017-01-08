@@ -13,12 +13,12 @@ consumes:
 produces:
   - application/json
 paths:
-  /hello:
-    x-swagger-router-controller: Hello
+  /users:
+    x-swagger-router-controller: users/Users
     get:
-      operationId: sayhello
+      operationId: getUsers
       tags:
-        -test
+        -secured
       responses:
         200:
           description: Success
@@ -26,6 +26,24 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+
+  /auth/token:
+    x-swagger-router-controller: Auth
+    post:
+      operationId: login
+      tags:
+        -security
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/TokenResponse"
+        500:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+
 
 definitions:
   ErrorResponse:
@@ -36,4 +54,20 @@ definitions:
       code:
         type: string
       message:
+        type: string
+  TokenResponse:
+    required:
+      - token
+      - username
+      - firstName
+    preoperties:
+      token:
+        type: string
+      username:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      role:
         type: string
