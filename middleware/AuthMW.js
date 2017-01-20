@@ -13,7 +13,6 @@ module.exports = function AuthMW(config, jsonwebtoken, authTokenDataAccessServic
             user: null,
             application: null
         };
-
         if(req.path !== '/' && req.path !== '/auth/token' && self.config.security.secureEndpoints && req.method !== 'OPTIONS') {
             // check header or url parameters or post parameters for token
             var token = req.headers['x-user-token'] || req.query.userToken || req.body.userToken;

@@ -52,6 +52,7 @@ module.exports = function ConfigIoc(){
         //BEGIN: Utilities
         container.register('helpersUtil', require('./utilities/HelpersUtil'), 'singleton');
         container.register('authTokenUtil', require('./utilities/AuthTokenUtil'), 'singleton');
+        container.register('authTokenUtil', require('./utilities/EncryptionUtil'), 'singleton');
         //END: Utilities
 
         //BEGIN: Data Access

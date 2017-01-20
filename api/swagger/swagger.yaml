@@ -18,7 +18,7 @@ paths:
     get:
       operationId: getUsers
       tags:
-        -secured
+        - secured
       responses:
         200:
           description: Success
@@ -32,7 +32,14 @@ paths:
     post:
       operationId: login
       tags:
-        -security
+        - security
+      parameters:
+        - name: username
+          in: body
+          description: Username for the user
+        - name: password
+          in: body
+          description: Password of the user (SHA256)
       responses:
         200:
           description: Success
@@ -60,7 +67,7 @@ definitions:
       - token
       - username
       - firstName
-    preoperties:
+    properties:
       token:
         type: string
       username:

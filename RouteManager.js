@@ -11,7 +11,6 @@ module.exports = function RouteManager(expressApp,
     this.q = iocContainer.get('q').module;
     this.serviceRoleMap = {};
 
-    self.isSecurityOn = false;
 
     this.register = function (routeJson) {
 
@@ -71,7 +70,7 @@ module.exports = function RouteManager(expressApp,
         var controllerMethod = controller[method.name];
 
         var authTokenValidatorFn = function (req, res, next) {
-            if ((!(req.identity) || req.identity == null || !(req.identity.user) || req.identity.user == null) && req.path !== "/api/help") {
+            if ((!(req.identity) || req.identity == null || !(req.identity.user) || req.identity.user == null)) {
                 res.sendStatus(401);
                 res.end();
             }
@@ -106,18 +105,7 @@ module.exports = function RouteManager(expressApp,
         var controllerMethodParams;
         if (Array.isArray(controllerMethod)) {
             controllerMethodParams = controllerMethod;
-            if (self.isSecurityOn) {
-                if (method.requiresLogin === false && method.exempt == true) {
-                    controllerMethodParams.splice(0, 0, method.route, commonResponseHeaderSetterFn);
-                } else if (method.requiresLogin === false) {
-                    controllerMethodParams.splice(0, 0, method.route, commonResponseHeaderSetterFn, self.passport.authenticate(['clientBasic', 'clientPassword'], {session: false}));
-                } else {
-                    controllerMethodParams.splice(0, 0, method.route, commonResponseHeaderSetterFn, self.passport.authenticate(['clientBasic', 'clientPassword'], {session: false}), authTokenValidatorFn);
-                }
-            }
-            else {
-                controllerMethodParams.splice(0, 0, method.route, commonResponseHeaderSetterFn);
-            }
+            controllerMethodParams.splice(0, 0, method.route, commonResponseHeaderSetterFn, authTokenValidatorFn);
         }
         else {
             var controllerMethodWrapper = function (req, res) {
@@ -168,30 +156,11 @@ module.exports = function RouteManager(expressApp,
                 }
             };
 
-            if (self.isSecurityOn) {
-                if (method.requiresLogin === false) {
-                    controllerMethodParams = [method.route, commonResponseHeaderSetterFn, controllerMethodWrapper];
-                    controllerMethodParams = handleBadge(method.badge, controllerMethodParams);
-
-                } else {
-                    controllerMethodParams = [method.route, commonResponseHeaderSetterFn, self.passport.authenticate('accessToken', {session: false}),roleBasedAuthorizationFn, controllerMethodWrapper];
-                }
-            }
-            else {
-                controllerMethodParams = [method.route, commonResponseHeaderSetterFn, controllerMethodWrapper];
-                controllerMethodParams = handleBadge(method.badge, controllerMethodParams);
-            }
+            controllerMethodParams = [method.route, commonResponseHeaderSetterFn, roleBasedAuthorizationFn, controllerMethodWrapper];
         }
         self.expressApp[method.name].apply(self.expressApp, controllerMethodParams);
     }
 
-    function handleBadge(badge, controllerMethodParams) {
-        if (badge == 'token') {
-            controllerMethodParams.splice(2, 0, self.serverAuth.token(), self.serverAuth.errorHandler());
-        }
-        return controllerMethodParams;
-
-    }
 
     function handleError(e, res, controllerName, methodName) {
         var error;

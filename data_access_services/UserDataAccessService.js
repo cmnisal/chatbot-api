@@ -27,6 +27,20 @@ module.exports = function UserDataAccessService(config,
             });
 
     };
+    this.findUserByUsernameAndPassword = function(username, password) {
+        var getUser = self.q.nbind(self.User.findOne, self.User);
+
+        return getUser({
+            username: username,
+            password: password
+        }).then(function(user) {
+            if(user) {
+                return self.q.when(user);
+            } else {
+                return self.q.when(null);
+            }
+        });
+    };
 
     this.User = self.db.model('vt_user', new self.schema({
         username: { type: String, required: true, unique: true },

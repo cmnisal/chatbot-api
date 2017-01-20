@@ -3,6 +3,7 @@ module.exports = function AuthController(config,
                                           userDataAccessService,
                                           authTokenDataAccessService,
                                           helpersUtil,
+                                          encryptionUtil,
                                           exceptionFac) {
     "use strict";
     var self = this;
@@ -13,12 +14,19 @@ module.exports = function AuthController(config,
     this.userDataAccessService = userDataAccessService;
     this.authTokenDataAccessService = authTokenDataAccessService;
     this.helpersUtil = helpersUtil;
+    self.encryptionUtil = encryptionUtil;
     this.exceptionFac = exceptionFac;
 
     this.post = function (req) {
-        return self.userDataAccessService.getUsers()
-            .then(function(users) {
-                return self.q.when(users);
+        var username = self.helpersUtil.fromModelVal(req.body.username);
+        var password = self.encryptionUtil.encryptSha256(req.body.password);
+        return self.userDataAccessService.findUserByUsernameAndPassword(username, password)
+            .then(function(user) {
+                if(user) {
+                    
+                } else {
+                    self.exceptionFac.createInstance('E0001', 400);
+                }
             });
     };
 
@@ -31,5 +39,6 @@ module.exports.$inject = [
     'userDataAccessService',
     'authTokenDataAccessService',
     'helpersUtil',
+    'encryptionUtil',
     'exceptionFac'
 ];
