@@ -23,6 +23,7 @@ module.exports = function ConfigIoc(){
         container.register('base64',{ module: require('base-64') }, 'singleton' );
         container.register('db', { module : require('mongoose') }, 'singleton');
         container.register('jsonwebtoken', { module: require('jsonwebtoken') }, 'singleton');
+        container.register('nonce', { module: require('nonce') }, 'singleton');
         //END: NPM modules
 
         //BEGIN: Clients
@@ -52,7 +53,7 @@ module.exports = function ConfigIoc(){
         //BEGIN: Utilities
         container.register('helpersUtil', require('./utilities/HelpersUtil'), 'singleton');
         container.register('authTokenUtil', require('./utilities/AuthTokenUtil'), 'singleton');
-        container.register('authTokenUtil', require('./utilities/EncryptionUtil'), 'singleton');
+        container.register('encryptionUtil', require('./utilities/EncryptionUtil'), 'singleton');
         //END: Utilities
 
         //BEGIN: Data Access

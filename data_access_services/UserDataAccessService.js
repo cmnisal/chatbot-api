@@ -35,6 +35,9 @@ module.exports = function UserDataAccessService(config,
             password: password
         }).then(function(user) {
             if(user) {
+                user = user.toObject();
+                delete user.password;
+                delete user.status;
                 return self.q.when(user);
             } else {
                 return self.q.when(null);

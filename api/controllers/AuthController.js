@@ -3,6 +3,7 @@ module.exports = function AuthController(config,
                                           userDataAccessService,
                                           authTokenDataAccessService,
                                           helpersUtil,
+                                          authTokenUtil,
                                           encryptionUtil,
                                           exceptionFac) {
     "use strict";
@@ -14,7 +15,8 @@ module.exports = function AuthController(config,
     this.userDataAccessService = userDataAccessService;
     this.authTokenDataAccessService = authTokenDataAccessService;
     this.helpersUtil = helpersUtil;
-    self.encryptionUtil = encryptionUtil;
+    this.authTokenUtil = authTokenUtil;
+    this.encryptionUtil = encryptionUtil;
     this.exceptionFac = exceptionFac;
 
     this.post = function (req) {
@@ -23,9 +25,28 @@ module.exports = function AuthController(config,
         return self.userDataAccessService.findUserByUsernameAndPassword(username, password)
             .then(function(user) {
                 if(user) {
-                    
-                } else {
-                    self.exceptionFac.createInstance('E0001', 400);
+                    return self.authTokenUtil.createToken(user._id,
+                        self.config.security.apiCredentials.vtourweb.password,
+                        self.config.security.apiCredentials.vtourweb.username,
+                        user.role)
+                        .then(function(token) {
+                            return self.authTokenDataAccessService.createToken(user, token)
+                                .then(function(tokenDoc) {
+                                    if(tokenDoc) {
+                                        user.token = token;
+                                        return self.q.when(user);
+                                    } else {
+                                        throw self.exceptionFac.createInstance('E0002', 500);
+                                    }
+                                })
+                                .catch(function(err) {
+                                    console.log(err);
+                                    throw self.exceptionFac.createInstance('E0002', 500);
+                                })
+                        });
+                }
+                 else {
+                    throw self.exceptionFac.createInstance('E0001', 400);
                 }
             });
     };
@@ -39,6 +60,7 @@ module.exports.$inject = [
     'userDataAccessService',
     'authTokenDataAccessService',
     'helpersUtil',
+    'authTokenUtil',
     'encryptionUtil',
     'exceptionFac'
 ];

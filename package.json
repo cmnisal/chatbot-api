@@ -29,6 +29,7 @@
     "mongoose": "^4.7.1",
     "node-rest-client": "~1.5.1",
     "node-uuid": "^1.4.3",
+    "nonce": "^1.0.4",
     "path": "^0.12.7",
     "q": "~1.4.1",
     "restling": "^0.9.1",
