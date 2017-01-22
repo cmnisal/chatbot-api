@@ -32,8 +32,9 @@ module.exports = function AuthTokenUtil(
                 return self.q.when(token);
             })
             .catch(function(err) {
-                console.log(err);
+               return self.q.when(err);
             });
+
 
     };
 

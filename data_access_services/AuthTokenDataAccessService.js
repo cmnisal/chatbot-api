@@ -14,21 +14,20 @@ module.exports = function AuthTokenDataAccessService(config,
     this.exceptionFac = exceptionFac;
     this.schema = self.db.Schema;
 
-    this.createToken = function (user, token) {
-
-        var storedToken = new self.Token({
-            userId : user._id,
+    this.saveToken = function (user, token) {
+        var newTokenDoc = {
+            userId : user.id,
             username: user.username,
-            token: token
-        });
+            authToken: token,
+            created_timestamp: Date.now()
+        };
+        var storedToken = new self.Token(newTokenDoc);
         var insertToken = self.q.nbind(storedToken.save, storedToken);
-        console.log("inserting token");
         return insertToken()
             .then(function(success) {
                 if(success) {
-                    console.log("inserted token");
                     return self.q.when({
-                        userId: user._id,
+                        userId: user.id,
                         username: user.username,
                         token: token,
                         first_name: user.first_name,
@@ -58,8 +57,8 @@ module.exports = function AuthTokenDataAccessService(config,
     this.Token = self.db.model('vt_token', new self.schema({
         userId: {type: String, required:true},
         username: { type: String, required: true },
-        token: { type: String, required: true, unique: true},
-        created_timestamp: { type: Date, default: Date.now }
+        authToken: { type: String, required: true, unique: true},
+        created_timestamp: { type: Date, default: Date.now() }
 
     }));
 

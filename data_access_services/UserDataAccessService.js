@@ -38,6 +38,8 @@ module.exports = function UserDataAccessService(config,
                 user = user.toObject();
                 delete user.password;
                 delete user.status;
+                user.id = user._id.toString();
+                delete user._id;
                 return self.q.when(user);
             } else {
                 return self.q.when(null);

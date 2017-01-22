@@ -25,12 +25,12 @@ module.exports = function AuthController(config,
         return self.userDataAccessService.findUserByUsernameAndPassword(username, password)
             .then(function(user) {
                 if(user) {
-                    return self.authTokenUtil.createToken(user._id,
+                    return self.authTokenUtil.createToken(user.id,
                         self.config.security.apiCredentials.vtourweb.password,
                         self.config.security.apiCredentials.vtourweb.username,
                         user.role)
                         .then(function(token) {
-                            return self.authTokenDataAccessService.createToken(user, token)
+                            return self.authTokenDataAccessService.saveToken(user, token)
                                 .then(function(tokenDoc) {
                                     if(tokenDoc) {
                                         user.token = token;
