@@ -1,5 +1,5 @@
 module.exports = {
-    secureEndpoints: false,
+    secureEndpoints: true,
     apiCredentials: {
         vtourweb: {
             username: "vtourweb",

@@ -25,24 +25,27 @@ module.exports = function AuthController(config,
         return self.userDataAccessService.findUserByUsernameAndPassword(username, password)
             .then(function(user) {
                 if(user) {
-                    return self.authTokenUtil.createToken(user.id,
-                        self.config.security.apiCredentials.vtourweb.password,
-                        self.config.security.apiCredentials.vtourweb.username,
-                        user.role)
-                        .then(function(token) {
-                            return self.authTokenDataAccessService.saveToken(user, token)
-                                .then(function(tokenDoc) {
-                                    if(tokenDoc) {
-                                        user.token = token;
-                                        return self.q.when(user);
-                                    } else {
-                                        throw self.exceptionFac.createInstance('E0002', 500);
-                                    }
-                                })
-                                .catch(function(err) {
-                                    console.log(err);
-                                    throw self.exceptionFac.createInstance('E0002', 500);
-                                })
+                    return self.authTokenDataAccessService.deleteTokenForUser(user._id)
+                        .then(function() {
+                            return self.authTokenUtil.createToken(user.id,
+                                self.config.security.apiCredentials.vtourweb.password,
+                                self.config.security.apiCredentials.vtourweb.username,
+                                user.role)
+                                .then(function(token) {
+                                    return self.authTokenDataAccessService.saveToken(user, token)
+                                        .then(function(tokenDoc) {
+                                            if(tokenDoc) {
+                                                user.token = token;
+                                                return self.q.when(user);
+                                            } else {
+                                                throw self.exceptionFac.createInstance('E0002', 500);
+                                            }
+                                        })
+                                        .catch(function(err) {
+                                            console.log(err);
+                                            throw self.exceptionFac.createInstance('E0002', 500);
+                                        })
+                                });
                         });
                 }
                  else {

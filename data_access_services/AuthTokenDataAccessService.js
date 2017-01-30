@@ -40,10 +40,24 @@ module.exports = function AuthTokenDataAccessService(config,
             });
 
     };
-
+    this.deleteTokenForUser = function(userId) {
+      var deleteTokenForUser = self.q.nbind(self.Token.findOneAndRemove, self.Token);
+      return deleteTokenForUser({
+          userId: userId
+      })
+          .then(function(success) {
+              if(success) {
+                  return self.q.when(null);
+              } else {
+                  return self.q.when(null);
+              }
+          })
+    };
     this.getToken = function(token) {
        var getTokenDoc = self.q.nbind(self.Token.findOne, self.Token);
-        return getTokenDoc(ObjectId.fromString(token))
+        return getTokenDoc({
+            authToken : token
+        })
             .then(function(tokenDoc) {
                 if(tokenDoc) {
                     return self.q.when(tokenDoc);

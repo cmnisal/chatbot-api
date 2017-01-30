@@ -13,7 +13,7 @@ module.exports = function AuthMW(config, jsonwebtoken, authTokenDataAccessServic
             user: null,
             application: null
         };
-        if(req.path !== '/' && req.path !== '/auth/token' && self.config.security.secureEndpoints && req.method !== 'OPTIONS') {
+        if(req.path !== '/' && req.path !== '/v1/auth/token' && self.config.security.secureEndpoints && req.method !== 'OPTIONS') {
             // check header or url parameters or post parameters for token
             var token = req.headers['x-user-token'] || req.query.userToken || req.body.userToken;
 
@@ -30,7 +30,7 @@ module.exports = function AuthMW(config, jsonwebtoken, authTokenDataAccessServic
                         req.identity.user = decoded;
                         req.identity.user.identityCreationDateTime = self.helpersUtil.fromIso8601Date(req.identity.user.identityCreationDateTime);
                         req.identity.user.token = token;
-                        if (decoded && decoded.userId && decoded.nonce && token) {
+                        if (decoded && decoded.userId && token) {
 
                             self.authTokenDataAccessService.getToken(token)
                                 .then(function (token) {
