@@ -21,7 +21,27 @@ paths:
         - secured
       responses:
         200:
-          description: Success
+          description: A list of users
+          schema:
+            type: array
+            items: '#/definitions/User'
+        500:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /hotels:
+    x-swagger-router-controller: hotels/Hotels
+    get:
+      operationId: getHotels
+      tags:
+        - secured
+      responses:
+        200:
+          description: A list of hotels
+          schema:
+            type: array
+            items: '#/definitions/Hotel'
         500:
           description: Error
           schema:
@@ -77,4 +97,30 @@ definitions:
       lastName:
         type: string
       role:
+        type: string
+  User:
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      phone:
+        type: string
+      role:
+        type: string
+  Hotel:
+    properties:
+      name:
+        type: string
+      address:
+        type: string
+      phone:
+        type: string
+      intro:
+        type: string
+      url:
         type: string

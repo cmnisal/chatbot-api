@@ -58,6 +58,7 @@ module.exports = function ConfigIoc(){
 
         //BEGIN: Data Access
         container.register('userDataAccessService', require('./data_access_services/UserDataAccessService'), 'singleton');
+        container.register('hotelDataAccessService', require('./data_access_services/HotelDataAccessService'), 'singleton');
         container.register('authTokenDataAccessService', require('./data_access_services/AuthTokenDataAccessService'), 'singleton');
         //END: Data
 
