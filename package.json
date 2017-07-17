@@ -11,6 +11,10 @@
   "author": "Spiritual Adventurers",
   "license": "MIT License v2.0",
   "main": "app.js",
+  "engines": {
+    "npm": ">=3.10.10 <4",
+    "node": ">=6.9.2 <7"
+  },
   "dependencies": {
     "acl": "^0.4.9",
     "async": "^1.5.0",
@@ -38,7 +42,6 @@
     "yamljs": "~0.2.4"
   },
   "scripts": {
-    "start": "node app.js",
-    "test": "swagger project test"
+    "start": "node app.js"
   }
 }
