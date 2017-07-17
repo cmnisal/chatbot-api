@@ -13,6 +13,30 @@ consumes:
 produces:
   - application/json
 paths:
+
+  /auth/token:
+    x-swagger-router-controller: Auth
+    post:
+      operationId: login
+      tags:
+        - security
+      parameters:
+        - name: username
+          in: body
+          description: Username for the user
+        - name: password
+          in: body
+          description: Password of the user (SHA256)
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/TokenResponse"
+        500:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /users:
     x-swagger-router-controller: users/Users
     get:
@@ -47,30 +71,21 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /auth/token:
-    x-swagger-router-controller: Auth
-    post:
-      operationId: login
+  /hotels/{hotelId}:
+    x-swagger-router-controller: hotels/Hotel
+    get:
+      operationId: getHotel
       tags:
-        - security
-      parameters:
-        - name: username
-          in: body
-          description: Username for the user
-        - name: password
-          in: body
-          description: Password of the user (SHA256)
+        - secured
       responses:
         200:
-          description: Success
+          description: The hotel specified by the ID
           schema:
-            $ref: "#/definitions/TokenResponse"
+            $ref: "#/definitions/Hotel"
         500:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-
-
 
 definitions:
   ErrorResponse:

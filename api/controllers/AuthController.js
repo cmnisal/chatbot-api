@@ -49,7 +49,7 @@ module.exports = function AuthController(config,
                         });
                 }
                  else {
-                    throw self.exceptionFac.createInstance('E0001', 400);
+                    throw self.exceptionFac.createInstance('E0020', 400);
                 }
             });
     };
