@@ -44,6 +44,20 @@ module.exports = function HotelDataAccessService(config,
         });
     };
 
+    this.addHotel = function(hotel) {
+      var storedHotel = new self.Hotel(hotel);
+      var saveHotel = self.q.nbind(storedHotel.save, storedHotel);
+
+      return saveHotel()
+          .then(function(success) {
+              if(success) {
+                  return self.q.when(hotel);
+              } else {
+                  throw self.exceptionFac.createInstance('E0010', 500);
+              }
+          })
+    };
+
     this.Hotel = self.db.model('vt_hotel', new self.schema({
         name: { type: String, required: true },
         address: { type: String, required: true },

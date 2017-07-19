@@ -70,6 +70,36 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+    post:
+      operationId: addHotel
+      tags:
+        - secured
+      parameters:
+        - name: name
+          in: body
+          description: Name of the hotel
+        - name: address
+          in: body
+          description: Address of the hotel
+        - name: phone
+          in: body
+          description: Phone number of the hotel
+        - name: intro
+          in: body
+          description: Introduction text
+        - name: url
+          in: body
+          description: URL to hotel website
+      responses:
+        200:
+          description: The hotel specified by the ID
+          schema:
+            $ref: "#/definitions/Hotel"
+        500:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
 
   /hotels/{hotelId}:
     x-swagger-router-controller: hotels/Hotel
@@ -86,6 +116,7 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+
 
 definitions:
   ErrorResponse:
