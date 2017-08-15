@@ -1,7 +1,7 @@
-VTOUR API 
+Chatbot API 
 =========
 
-The VTour API is built on node.js using Express with MongoDB as the database. 
+The chatbot API is built on node.js using Express with MongoDB as the database. 
 
 Creating a new Service
 ----------------------
