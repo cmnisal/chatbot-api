@@ -34,6 +34,16 @@ module.exports = function ConfigIoc(){
         container.get('db').module.connect(config.data.mainDataConnectionPool.mongoConnectionUrl);
         //END: Data Connections
 
+        //BEGIN: Conversation API
+        var watson = require('watson-developer-cloud');
+        var conversation = new watson.ConversationV1({
+            username: config.conversation.username,
+            password: config.conversation.password,
+            version_date: config.conversation.versionDate
+        });
+        container.register('conversation', { instance: conversation }, 'singleton');
+        //END: Conversation API
+
         //BEGIN: Miscellaneous
         container.register('response', { class: require('./Response') }, 'singleton');
         container.register('exception', { class: require('./Exception') }, 'singleton');
@@ -58,7 +68,6 @@ module.exports = function ConfigIoc(){
 
         //BEGIN: Data Access
         container.register('userDataAccessService', require('./data_access_services/UserDataAccessService'), 'singleton');
-        container.register('hotelDataAccessService', require('./data_access_services/HotelDataAccessService'), 'singleton');
         container.register('authTokenDataAccessService', require('./data_access_services/AuthTokenDataAccessService'), 'singleton');
         //END: Data
 

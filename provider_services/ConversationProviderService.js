@@ -1,6 +1,6 @@
 module.exports = function ConversationProviderService(config,
                                                       q,
-                                                      hotelDataAccessService,
+                                                      conversation,
                                                       helpersUtil,
                                                       exceptionFac) {
     "use strict";
@@ -9,12 +9,24 @@ module.exports = function ConversationProviderService(config,
     // Bind injected dependencies
     this.config = config;
     this.q = q.module;
-    this.hotelDataAccessService = hotelDataAccessService;
+    this.conversation = conversation.instance;
     this.helpersUtil = helpersUtil;
     this.exceptionFac = exceptionFac;
 
-    this.init = function() {
+    this.sendMessage = function(text, context) {
+        var messsage = self.q.nbind(self.conversation.message, self.conversation);
 
+        var payload = {
+            workspace_id: self.config.conversation.workspaceId,
+            input: {
+                text: text
+            },
+            context: context ? context : {}
+        };
+        return message(payload)
+            .then(function(result) {
+                console.log(result);
+            })
     };
 
 
@@ -23,7 +35,7 @@ module.exports = function ConversationProviderService(config,
 module.exports.$inject = [
     'config',
     'q',
-    'hotelDataAccessService',
+    'conversation',
     'helpersUtil',
     'exceptionFac'
 ];

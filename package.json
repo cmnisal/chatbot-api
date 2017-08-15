@@ -38,6 +38,7 @@
     "q": "~1.4.1",
     "restling": "^0.9.1",
     "utf8": "^2.1.1",
+    "watson-developer-cloud": "^2.38.0",
     "winston": "~1.0.1",
     "yamljs": "~0.2.4"
   },
