@@ -7,13 +7,13 @@ module.exports = {
 
     data: {
         mainDataConnectionPool : {
-            mongoConnectionUrl: 'mongodb://chat:chatapiuser@ds155631.mlab.com:55631/chat-api-db'
+            mongoConnectionUrl: process.env.MONGO_CONNECTION_URL
         }
     },
     conversation : {
-        workspaceId : "d65554e3-473d-47c2-9cb7-bd55ff7500a9",
-        username: "b6780ca5-ea15-4ad8-b69b-a90fa0739e02",
-        password: "6OQE52IVjKCH",
+        workspaceId : process.env.WATSON_WORKSPACE_ID,
+        username: process.env.WATSON_USERNAME,
+        password: process.env.WATSON_PASSWORD,
         versionDate: "2017-05-26"
     },
     apiRoutes: require('yamljs').load('./api/swagger/swagger.yaml'),

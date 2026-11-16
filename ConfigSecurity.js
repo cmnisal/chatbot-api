@@ -2,13 +2,13 @@ module.exports = {
     secureEndpoints: true,
     apiCredentials: {
         vtourweb: {
-            username: "vtourweb",
-            password: "{c423f1b3-8d0e-4884-9313-ffdca81ba329}"
+            username: process.env.API_USERNAME,
+            password: process.env.API_PASSWORD
         }
     },
-    sessionSecret: "{83ff5718-40b7-419c-a3d6-9e186f6ba59c}",
+    sessionSecret: process.env.SESSION_SECRET,
     authToken: {
-        secret: "{cce2ddd6-7963-11e5-8bcf-feff819cdc9f}",
+        secret: process.env.AUTH_TOKEN_SECRET,
         expirationMins: 10000
     },
     socketAuthenticationTimeOut:10000
